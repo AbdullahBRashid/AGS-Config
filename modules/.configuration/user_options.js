@@ -34,11 +34,11 @@ let configOptions = {
     },
     'apps': {
         'bluetooth': "blueberry",
-        'imageViewer': "loupe",
+        'imageViewer': "eog",
         'network': "XDG_CURRENT_DESKTOP=\"gnome\" gnome-control-center wifi",
         'settings': "XDG_CURRENT_DESKTOP=\"gnome\" gnome-control-center",
         'taskManager': "gnome-usage",
-        'terminal': "foot", // This is only for shell actions
+        'terminal': "terminator", // This is only for shell actions
     },
     'battery': {
         'low': 20,
