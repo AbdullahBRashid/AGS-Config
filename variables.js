@@ -4,6 +4,7 @@ import Hyprland from 'resource:///com/github/Aylur/ags/service/hyprland.js';
 import Mpris from 'resource:///com/github/Aylur/ags/service/mpris.js';
 import Variable from 'resource:///com/github/Aylur/ags/variable.js';
 import * as Utils from 'resource:///com/github/Aylur/ags/utils.js';
+import Notifications from 'resource:///com/github/Aylur/ags/service/notifications.js';
 const { exec, execAsync } = Utils;
 import { init as i18n_init, getString } from './i18n/i18n.js'
 //init i18n, Load language file
@@ -13,6 +14,8 @@ Gtk.IconTheme.get_default().append_search_path(`${App.configDir}/assets/icons`);
 // Global vars for external control (through keybinds)
 export const showMusicControls = Variable(false, {})
 export const showColorScheme = Variable(false, {})
+export const isSilent = Variable(false, {})
+globalThis['silent'] = isSilent;
 globalThis['openMusicControls'] = showMusicControls;
 globalThis['openColorScheme'] = showColorScheme;
 globalThis['mpris'] = Mpris;
@@ -52,6 +55,11 @@ globalThis['cycleMode'] = () => {
     else {
         updateMonitorShellMode(currentShellMode, monitor, 'normal')
     }
+}
+
+globalThis['silence'] = (dnd) => {
+    Notifications.dnd = dnd;
+    isSilent.setValue(dnd);
 }
 
 // Window controls

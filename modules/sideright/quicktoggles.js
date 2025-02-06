@@ -173,6 +173,37 @@ export const ModuleInvertColors = async (props = {}) => {
     };
 }
 
+export const ModuleRetro = async (props = {}) => {
+    try {
+        const Hyprland = (await import('resource:///com/github/Aylur/ags/service/hyprland.js')).default;
+        return Widget.Button({
+            className: 'txt-small sidebar-iconbutton',
+            tooltipText: getString('Retro Shader'),
+            onClicked: (button) => {
+                // const shaderPath = JSON.parse(exec('hyprctl -j getoption decoration:screen_shader')).str;
+                Hyprland.messageAsync('j/getoption decoration:screen_shader')
+                    .then((output) => {
+                        const shaderPath = JSON.parse(output)["str"].trim();
+                        if (shaderPath != "[[EMPTY]]" && shaderPath != "") {
+                            execAsync(['bash', '-c', `hyprctl keyword decoration:screen_shader '[[EMPTY]]'`]).catch(print);
+                            button.toggleClassName('sidebar-button-active', false);
+                        }
+                        else {
+                            Hyprland.messageAsync(`j/keyword decoration:screen_shader ${GLib.get_user_config_dir()}/hypr/shaders/retro.frag`)
+                                .catch(print);
+                            button.toggleClassName('sidebar-button-active', true);
+                        }
+                    })
+            },
+            child: MaterialIcon('live_tv', 'norm'),
+            setup: setupCursorHover,
+            ...props,
+        })
+    } catch {
+        return null;
+    };
+}
+
 export const ModuleRawInput = async (props = {}) => {
     try {
         const Hyprland = (await import('resource:///com/github/Aylur/ags/service/hyprland.js')).default;
